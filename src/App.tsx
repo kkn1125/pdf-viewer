@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import { pdfMapper } from "./common/pdfMapper";
 import PDFViewer from "./components/moleculars/PDFViewer";
-import { Box, Button, Container, Paper, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
+import PDFItem from "./components/moleculars/PDFItem";
 
 // import * as pdfjs from "pdfjs-dist";
 //@ts-ignore
@@ -30,30 +38,14 @@ function App() {
   });
   return (
     <Stack height='inherit' component={Container}>
-      <Typography component="h3" variant="h3" align="center" fontWeight={700}>PDF Viewer</Typography>
-      {pdfMapper.map(([name, img, filename]) => (
-        <Stack key={name} direction='row'>
-          <Paper component={Stack} p={2} gap={2}>
-            <Box
-              component='img'
-              src={img}
-              alt={name}
-              width={200}
-              sx={{ border: "1px solid #56565626", borderRadius: 1 }}
-            />
-            <Button
-              variant='contained'
-              color='warning'
-              onClick={handleToggle}
-              sx={{ fontSize: 16 }}>
-              상세보기
-            </Button>
-            {visible && (
-              <PDFViewer filename={filename} handleClose={handleClose} />
-            )}
-          </Paper>
-        </Stack>
-      ))}
+      <Typography component='h3' variant='h3' align='center' fontWeight={700}>
+        PDF Viewer
+      </Typography>
+      <Stack direction='row' flexWrap='wrap' gap={2}>
+        {pdfMapper.map(({ name, img, pdf }) => (
+          <PDFItem key={name} img={img} name={name} filename={pdf} />
+        ))}
+      </Stack>
     </Stack>
   );
 }
